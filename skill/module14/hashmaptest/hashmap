@@ -1,0 +1,54 @@
+package main
+
+import (
+	"fmt"
+)
+
+// HashMap структура, представляющая собой хеш-карту
+type HashMap struct {
+	data map[string]string // внутреннее хранилище данных
+}
+
+// NewHashMap конструктор для создания нового экземпляра HashMap
+func NewHashMap() *HashMap {
+	return &HashMap{
+		data: make(map[string]string),
+	}
+}
+
+// Set метод для добавления пары ключ-значение в карту
+func (h *HashMap) Set(key, value string) {
+	h.data[key] = value
+}
+
+// Get метод для получения значения по ключу
+func (h *HashMap) Get(key string) (string, bool) {
+	value, exists := h.data[key]
+	return value, exists
+}
+
+// Delete метод для удаления элемента по ключу
+func (h *HashMap) Delete(key string) {
+	delete(h.data, key)
+}
+
+func main() {
+	hashMap := NewHashMap()
+
+	// Добавляем элементы
+	hashMap.Set("key1", "value1")
+	hashMap.Set("key2", "value2")
+
+	// Получаем значение по ключу
+	if value, exists := hashMap.Get("key1"); exists {
+		fmt.Println(value) // выведет "value1"
+	}
+
+	// Удаляем элемент
+	hashMap.Delete("key2")
+
+	// Проверим наличие удаленного ключа
+	if _, exists := hashMap.Get("key2"); !exists {
+		fmt.Println("Key 'key2' was deleted successfully.")
+	}
+}

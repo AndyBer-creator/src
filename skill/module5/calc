@@ -1,0 +1,60 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+)
+
+func main() {
+	reader := bufio.NewReader(os.Stdin)
+
+	// Считывание первого числа
+	fmt.Print("Введите первое число: ")
+	firstInput, _ := reader.ReadString('\n')
+	firstNum, err := strconv.ParseFloat(firstInput[:len(firstInput)-1], 64) // Убираем символ новой строки
+
+	if err != nil {
+		fmt.Println("Ошибка при вводе первого числа:", err)
+		return
+	}
+
+	// Считывание оператора
+	fmt.Print("Введите оператор (+, -, *, /): ")
+	operator, _ := reader.ReadString('\n')
+	operator = operator[:len(operator)-1] // Убираем символ новой строки
+
+	// Считывание второго числа
+	fmt.Print("Введите второе число: ")
+	secondInput, _ := reader.ReadString('\n')
+	secondNum, err := strconv.ParseFloat(secondInput[:len(secondInput)-1], 64)
+
+	if err != nil {
+		fmt.Println("Ошибка при вводе второго числа:", err)
+		return
+	}
+
+	// Выполнение операции в зависимости от оператора
+	var result float64
+	switch operator {
+	case "+":
+		result = firstNum + secondNum
+	case "-":
+		result = firstNum - secondNum
+	case "*":
+		result = firstNum * secondNum
+	case "/":
+		if secondNum == 0 {
+			fmt.Println("Ошибка: Деление на ноль")
+			return
+		}
+		result = firstNum / secondNum
+	default:
+		fmt.Println("Неизвестный оператор:", operator)
+		return
+	}
+
+	// Вывод результата
+	fmt.Printf("Результат: %.2f\n", result)
+}

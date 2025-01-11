@@ -1,0 +1,8 @@
+FROM golang:1.23
+
+WORKDIR /dockerWorkDirectory
+COPY . /app
+RUN go build main.go
+CMD [ "/app/main" ]
+
+#////////* docker run -d -p 8989:8787 sf_go

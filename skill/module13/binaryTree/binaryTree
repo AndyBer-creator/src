@@ -1,0 +1,112 @@
+package main
+
+import (
+	"fmt"
+)
+
+// Node представляет узел двоичного дерева
+type Node struct {
+	Value int
+	Left  *Node
+	Right *Node
+}
+
+// BinaryTree представляет двоичное дерево
+type BinaryTree struct {
+	Root *Node
+}
+
+// Insert вставляет элемент в двоичное дерево
+func (tree *BinaryTree) Insert(value int) {	
+	tree.Root = insertNode(tree.Root, value)
+}
+
+func insertNode(node *Node, value int) *Node {
+	if node == nil {
+		return &Node{Value: value}
+	}
+	if value < node.Value {
+		node.Left = insertNode(node.Left, value)
+	} else {
+		node.Right = insertNode(node.Right, value)
+	}
+	return node
+}
+
+// Search ищет элемент в двоичном дереве
+func (tree *BinaryTree) Search(value int) bool {
+	return searchNode(tree.Root, value)
+}
+
+func searchNode(node *Node, value int) bool {
+	if node == nil {
+		return false
+	}
+	if node.Value == value {
+		return true
+	}
+	if value < node.Value {
+		return searchNode(node.Left, value)
+	}
+	return searchNode(node.Right, value)
+}
+
+// Delete удаляет элемент из двоичного дерева
+func (tree *BinaryTree) Delete(value int) {
+	tree.Root = deleteNode(tree.Root, value)
+}
+
+func deleteNode(node *Node, value int) *Node {
+	if node == nil {
+		return nil
+	}
+	if value < node.Value {
+		node.Left = deleteNode(node.Left, value)
+	} else if value > node.Value {
+		node.Right = deleteNode(node.Right, value)
+	} else {
+		if node.Left == nil {
+			return node.Right
+		} else if node.Right == nil {
+			return node.Left
+		}
+		minNode := findMin(node.Right)
+		node.Value = minNode.Value
+		node.Right = deleteNode(node.Right, minNode.Value)
+	}
+	return node
+}
+
+func findMin(node *Node) *Node {
+	for node.Left != nil {
+		node = node.Left
+	}
+	return node
+}
+
+// Print печатает элементы двоичного дерева в симметричном порядке
+func (tree *BinaryTree) Print() {
+	printInOrder(tree.Root)
+}
+
+func printInOrder(node *Node) {
+	if node != nil {
+		printInOrder(node.Left)
+		fmt.Print(node.Value, " ")
+		printInOrder(node.Right)
+	}
+}
+
+// Пример использования двоичного дерева
+func main() {
+	tree := &BinaryTree{}
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(7)
+	tree.Insert(2)
+	tree.Insert(4)
+	tree.Print() // 2 3 4 5 7
+	fmt.Println("\nSearch 4:", tree.Search(4))
+	tree.Delete(3)
+	tree.Print() // 2 4 5 7
+}
