@@ -1,0 +1,8 @@
+#config/local.yaml
+
+env: "local" #окружение - local, dev, prod
+storage_path: "/home/andrew/storage"
+http_server: #конфигурация для http сервера
+address: "localhost:8082"
+timeout: 10s
+idle_timeout: 60s
