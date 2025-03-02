@@ -4,7 +4,7 @@
 {{define "main"}}
     <div class='createSnippet'>
         <h1>Создать новую заметку</h1>
-        <form method="POST" action="snippet/create"> <!-- Изменено на /snippet/create -->
+        <action="snippet/create"form method="GET" > <!-- Изменено на /snippet/create -->
             <div class='form-group'>
                 <label for="title">Заголовок:</label>
                 <input type="text" id="title" name="title" required>
